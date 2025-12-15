@@ -269,7 +269,7 @@ document.getElementById("finishBtn").addEventListener("click", () => {
   
   clearInterval(timerInterval);
   timerInterval = null;
-  
+  if (score > 0) {
     const nextLevelBtn = document.createElement("button");
     nextLevelBtn.textContent = "Следующая сложность";
     nextLevelBtn.style.marginTop = "12px";
@@ -279,7 +279,7 @@ document.getElementById("finishBtn").addEventListener("click", () => {
 
     const rulesButtonsDiv = overlay.querySelector(".rules-buttons");
     rulesButtonsDiv.appendChild(nextLevelBtn);
-  
+  }
 });
 
 
