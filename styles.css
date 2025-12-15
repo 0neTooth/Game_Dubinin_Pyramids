@@ -1,0 +1,166 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #ffe6f0;
+  color: #1f2937;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #fff0f6;
+  border-bottom: 1px solid #fbcfe8;
+  gap: 15px;
+  z-index: 50;
+}
+
+#userName { font-weight: bold; }
+
+header button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #f472b6;
+  color: #fff;
+  cursor: pointer;
+}
+
+header button:hover { background: #db2777; }
+
+.center {
+  margin-top: 120px;
+  text-align: center;
+  position: relative;
+  z-index: 40;
+}
+
+h1 { font-size: 28px; margin-bottom: 20px; }
+
+.levelBtn {
+  display: block;
+  width: 240px;
+  padding: 16px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #f472b6, #ec4899);
+  color: #fff;
+  cursor: pointer;
+}
+
+.levelBtn:hover {
+  background: linear-gradient(135deg, #db2777, #be185d);
+}
+
+#leaderboard {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto 50px;
+  border-collapse: collapse;
+  background: #fff;
+  display: block;
+  max-height: 350px;
+  overflow-y: auto;
+  border: 2px solid #ec4899;
+  border-radius: 12px;
+}
+
+#leaderboard thead, #leaderboard tbody { display: table; width: 100%; table-layout: fixed; }
+
+#leaderboard th, #leaderboard td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#leaderboard th { background: #ec4899; color: #fff; }
+
+#leaderboard tbody tr:nth-child(even) { background: #fce7f3; }
+#leaderboard tbody tr:hover { background: #f9d6e3; }
+
+#authOverlay, #difficultyModal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 230, 240, 0.8);
+  z-index: 100;
+}
+
+#authWindow, #diffWindow {
+  width: 300px;
+  padding: 20px;
+  background: #fff0f6;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#authWindow input {
+  width: 90%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #fbcfe8;
+  border-radius: 8px;
+}
+
+#authWindow button, .diffBtn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #f472b6;
+  color: #fff;
+  cursor: pointer;
+}
+
+#authWindow button:hover, .diffBtn:hover { background: #db2777; }
+
+#closeDiffBtn {
+  background: #fce7f3;
+  color: #be185d;
+  border: none;
+}
+
+#difficultyModal { display: none; }
+
+#settingsModal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 230, 240, 0.8);
+  z-index: 120;
+}
+
+#settingsWindow {
+  width: 280px;
+  padding: 20px;
+  background: #fff0f6;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#settingsWindow button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #f472b6;
+  color: #fff;
+  cursor: pointer;
+}
+
+

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Пирамидка — уровень 3</title>
+<link rel="stylesheet" href="../3lvl.css" />
+</head>
+
+<body>
+
+<div class="container">
+  <div class="wrap">
+
+    <div class="playfield">
+        <button class="finish-btn" id="finishBtn">Закончить</button>
+        <div class="side-rings" id="sideRings"></div>
+        <div class="peg-outside" id="peg"></div>
+    </div>
+
+  </div>
+
+  <div class="rules">
+    <h3>Правила</h3>
+    <ul>
+      <li>Справа почти готовая пирамидка</li>
+      <li>Подгони размеры колец слева</li>
+      <li>ЛКМ - увеличить кольцо</li>
+      <li>ПКМ - уменьшить кольцо</li>
+      <li>Готово - нажми «Закончить»</li>
+    </ul>
+    <div class="timerBox">Время: <span id="timerDisplay">00:00</span></div>
+    <div class="timer-bar">
+      <div class="timer-bar-fill" id="timerBar"></div>
+    </div>
+    
+    <div class="rules-buttons">
+      <button onclick="location.reload()">Начать заново</button>
+      <button onclick="backToMenu()">В меню</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="rules modal-result">
+    <h2 id="modalTitle">Игра окончена</h2>
+    <p id="modalText">Время вышло</p>
+    <div class="rules-buttons">
+      <button onclick="location.reload()">Начать заново</button>
+      <button onclick="backToMenu()">В меню</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="overlay" id="startOverlay">
+  <div class="rules">
+    <h3>Правила уровня</h3>
+    <ul style="padding-left:18px; line-height:1.6;">
+      <li>Справа почти готовая пирамидка</li>
+      <li>Подгони размеры колец слева</li>
+      <li>ЛКМ - увеличить кольцо</li>
+      <li>ПКМ - уменьшить кольцо</li>
+      <li>Готово - нажми «Закончить»</li>
+    </ul>
+    <div class="rules-buttons">
+      <button id="startBtn" style="margin-top:12px;">Начать</button>
+    </div>
+  </div>
+</div>
+
+<script src="3n.js"></script>
+</body>
+</html>

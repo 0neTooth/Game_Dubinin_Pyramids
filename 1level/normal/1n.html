@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Пирамидка</title>
+<link rel="stylesheet" href="../1lvl.css" />
+
+</head>
+<body>
+
+
+<div class="container">
+  <div class="wrap">
+
+    <div class="playfield" id="playfield">
+      <div class="bottom" id="bottom"></div>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:18px; align-items:center;">
+      <div class="peg-outside" id="peg"></div>
+    </div>
+
+  </div>
+
+  <div class="rules">
+    <h3>Правила игры</h3>
+    <ul style="padding-left:18px; line-height:1.6;">
+      <li>Переносите кольца на колышек, нажимая на них</li>
+      <li>Нельзя ставить большее кольцо на меньшее</li>
+      <li>Чтобы вернуть кольцо, нажмите на верхнее кольцо на колышке</li>
+      <li>Соберите пирамидку быстрее, чем закончится время</li>
+    </ul>
+    <div class="timerBox">Время: <span id="timerDisplay">00:00</span></div>
+    <div class="timer-bar">
+      <div class="timer-bar-fill" id="timerBar"></div>
+    </div>
+    <div class="scoreBox">Очки: <span id="scoreDisplay">0</span></div>
+    <div class="rules-buttons">
+      <button id="shuffle">Сбросить</button>
+      <button onclick="location.reload()">Начать заново</button>
+      <button onclick="backToMenu()">В меню</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal-result">
+    <h2 id="modalTitle">Игра окончена</h2>
+    <p id="modalText">Время вышло</p>
+    <div class="rules-buttons">
+      <button onclick="location.reload()">Начать заново</button>
+      <button onclick="backToMenu()">В меню</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="startOverlay">
+  <div class="rules">
+    <h3>Правила уровня</h3>
+    <ul style="padding-left:18px; line-height:1.6;">
+      <li>Переносите кольца на колышек, нажимая на них</li>
+      <li>Нельзя ставить большее кольцо на меньшее</li>
+      <li>Чтобы вернуть кольцо, нажмите на верхнее кольцо на колышке</li>
+      <li>Соберите пирамидку быстрее, чем закончится время</li>
+    </ul>
+    <div class="rules-buttons">
+      <button id="startBtn" style="margin-top:12px;">Начать</button>
+    </div>
+  </div>
+</div>
+<script src="1n.js"></script>
+</body>
+</html>
