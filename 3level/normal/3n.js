@@ -1,5 +1,3 @@
-const bottom = document.getElementById("bottom");
-const peg = document.getElementById("peg");
 const shuffleBtn = document.getElementById("shuffle");
 const timerDisplay = document.getElementById("timerDisplay");
 const overlay = document.getElementById("overlay");

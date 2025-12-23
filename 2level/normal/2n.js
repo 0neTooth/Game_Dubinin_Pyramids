@@ -1,4 +1,3 @@
-const bottom = document.getElementById("bottom");
 const peg = document.getElementById("peg");
 const timerDisplay = document.getElementById("timerDisplay");
 const overlay = document.getElementById("overlay");

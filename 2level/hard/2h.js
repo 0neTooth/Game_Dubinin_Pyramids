@@ -1,4 +1,3 @@
-const peg = document.getElementById("peg");
 const timerDisplay = document.getElementById("timerDisplay");
 const overlay = document.getElementById("overlay");
 const modalTitle = document.getElementById("modalTitle");

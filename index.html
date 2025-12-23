@@ -9,8 +9,9 @@
 <body>
   
   <header>
+    <img id="userAvatar" class="avatar">
     <span id="userName"></span>
-    <button onclick="openSettings()">⚙️</button>
+    <button onclick="openSettings()">Настройки</button>
     <button onclick="logout()">Выйти</button>
   </header>
 
@@ -23,9 +24,9 @@
     <h2>Таблица лидеров</h2>
     <label>Выберите уровень: 
       <select id="leaderLevel" onchange="renderLeaderboard(this.value)">
-        <option value="1">Скорость</option>
-        <option value="2">Ловкость</option>
-        <option value="3">Точность</option>
+        <option value="1">1 уровень</option>
+        <option value="2">2 уровень</option>
+        <option value="3">3 уровень</option>
       </select>
     </label>
     <table id="leaderboard">
@@ -43,9 +44,19 @@
 
   <div id="authOverlay">
     <div id="authWindow">
-      <h3>Авторизация</h3>
-      <input id="nameInput" type="text" placeholder="Ваше имя">
-      <button onclick="login()">Войти</button>
+      <h3 id="authTitle">Новый аккаунт</h3>
+      <div id="newAccountBlock">
+        <img id="authAvatar" class="auth-avatar" src="avatars/1.jpg" onclick="changeAuthAvatar()">
+        <p>Для смены аватарки нажмите на картинку</p>
+        <input id="nameInput" type="text" placeholder="Ваше имя">
+        <button onclick="createAccount()">Создать</button>
+      </div>
+
+      <div id="existingAccountBlock" style="display:none">
+        <div id="accountsList"></div>
+      </div>
+
+      <button class="link-btn" onclick="toggleAuthMode()">У меня уже есть аккаунт</button>
     </div>
   </div>
 
@@ -62,7 +73,9 @@
   <div id="settingsModal">
     <div id="settingsWindow">
       <h3>Настройки</h3>
-      <button onclick="resetRating()">Сбросить рейтинг</button>
+      <button onclick="changeAvatar()">Сменить аватар</button>
+      <button class="danger" onclick="deleteAccount()">Удалить аккаунт</button>
+      <button class="danger" onclick="resetRating()">Сбросить весь рейтинг</button>
       <button onclick="unlockAll()">Разблокировать все режимы</button>
       <button onclick="closeSettings()">Закрыть</button>
     </div>

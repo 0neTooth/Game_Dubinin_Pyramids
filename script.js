@@ -1,14 +1,145 @@
 let selectedLevel = null;
+let selectedAvatar = 1;
+const AVATAR_COUNT = 10;
+const MAX_ACCOUNTS = 15;
+let authMode = "new";
+
+function toggleAuthMode() {
+  authMode = authMode === "new" ? "existing" : "new";
+
+  document.getElementById("newAccountBlock").style.display =
+    authMode === "new" ? "block" : "none";
+
+  document.getElementById("existingAccountBlock").style.display =
+    authMode === "existing" ? "block" : "none";
+
+  document.getElementById("authTitle").textContent =
+    authMode === "new" ? "Новый аккаунт" : "Выберите аккаунт";
+
+  document.querySelector(".link-btn").textContent =
+    authMode === "new" ? "У меня уже есть аккаунт" : "Создать новый аккаунт";
+    
+  if (authMode === "existing") {
+    renderAccountsList();
+  }
+}
+
+function changeAuthAvatar() {
+  const avatarImg = document.getElementById("authAvatar");
+
+  if (avatarImg.style.pointerEvents === "none") return;
+
+  selectedAvatar++;
+  if (selectedAvatar > AVATAR_COUNT) selectedAvatar = 1;
+
+  avatarImg.src = `avatars/${selectedAvatar}.jpg`;
+}
+
+function changeAvatar() {
+  const name = localStorage.getItem("playerName");
+  if (!name) return;
+
+  let players = JSON.parse(localStorage.getItem("players") || "{}");
+  if (!players[name]) return;
+
+  const currentAvatar = players[name].avatar;
+  const match = currentAvatar.match(/(\d+)\.jpg$/);
+  let currentIndex = match ? parseInt(match[1]) : 1;
+
+  currentIndex++;
+  if (currentIndex > AVATAR_COUNT) currentIndex = 1;
+
+  players[name].avatar = `avatars/${currentIndex}.jpg`;
+  localStorage.setItem("players", JSON.stringify(players));
+
+  renderUserAvatar();
+}
+
+function deleteAccount() {
+  const name = localStorage.getItem("playerName");
+  if (!name) return;
+
+  if (!confirm(`Удалить аккаунт "${name}"? Все данные будут потеряны.`)) return;
+
+  let players = JSON.parse(localStorage.getItem("players") || "{}");
+  delete players[name];
+  localStorage.setItem("players", JSON.stringify(players));
+
+  let scores = JSON.parse(localStorage.getItem("playerScores") || "{}");
+  delete scores[name];
+  localStorage.setItem("playerScores", JSON.stringify(scores));
+
+  localStorage.removeItem("playerName");
+  location.reload();
+}
 
 
-function login() {
-  const nameInput = document.getElementById("nameInput");
-  const name = nameInput.value.trim();
-  if (!name) return alert("Введите имя!");
-  
+function createAccount() {
+  const name = document.getElementById("nameInput").value.trim();
+  if (!name) return alert("Введите имя");
+
+  if (name.length > 12) return alert("Имя не должно быть длиннее 12 символов");
+
+  let players = JSON.parse(localStorage.getItem("players") || "{}");
+
+  if (Object.keys(players).length >= MAX_ACCOUNTS) {
+    return alert("Достигнуто максимальное количество аккаунтов (15)");
+  }
+
+  if (players[name]) {
+    alert("Такой аккаунт уже существует");
+    return;
+  }
+
+  players[name] = {
+    avatar: `avatars/${selectedAvatar}.jpg`
+  };
+
+  localStorage.setItem("players", JSON.stringify(players));
+  loginAs(name);
+}
+
+function loginAs(name) {
   localStorage.setItem("playerName", name);
   document.getElementById("authOverlay").style.display = "none";
   document.getElementById("userName").textContent = name;
+  renderUserAvatar();
+}
+
+function renderAccountsList() {
+  const list = document.getElementById("accountsList");
+  list.innerHTML = "";
+
+  const players = JSON.parse(localStorage.getItem("players") || "{}");
+
+  if (Object.keys(players).length === 0) {
+    list.innerHTML = "<p>Нет сохранённых аккаунтов</p>";
+    return;
+  }
+
+  for (let name in players) {
+    const div = document.createElement("div");
+    div.className = "account-item";
+    div.innerHTML = `
+      <img src="${players[name].avatar}"  class="leader-avatar">
+      <span>${name}</span>
+    `;
+    div.onclick = () => loginAs(name);
+    list.appendChild(div);
+  }
+}
+
+function renderUserAvatar() {
+  const name = localStorage.getItem("playerName");
+  if (!name) return;
+
+  const players = JSON.parse(localStorage.getItem("players") || "{}");
+  const avatar = players[name]?.avatar;
+
+  if (!avatar) return;
+
+  const img = document.getElementById("userAvatar");
+  img.src = avatar;
 }
 
 function logout() {
@@ -36,9 +167,6 @@ function chooseLevel(level) {
 
 function startGame(diff) {
   document.getElementById("difficultyModal").style.display = "none";
-
-  localStorage.setItem("selectedLevel", selectedLevel);
-  localStorage.setItem("selectedDifficulty", diff);
 
   const levelPaths = {
     1: { '1': '1level/easy/1e.html', '2': '1level/normal/1n.html', '3': '1level/hard/1h.html' },
@@ -70,27 +198,36 @@ function renderLeaderboard(level) {
   const tableBody = document.querySelector("#leaderboard tbody");
   tableBody.innerHTML = "";
 
-  const dataStr = localStorage.getItem("playerScores");
-  if (!dataStr) return;
+  const scoresStr = localStorage.getItem("playerScores");
+  const playersStr = localStorage.getItem("players");
 
-  const scores = JSON.parse(dataStr);
+  if (!scoresStr || !playersStr) return;
+
+  const scores = JSON.parse(scoresStr);
+  const playersData = JSON.parse(playersStr);
 
   const playersArr = Object.entries(scores).map(([player, playerScore]) => {
     const easy = playerScore[`${level}lvle`] || 0;
     const normal = playerScore[`${level}lvln`] || 0;
     const hard = playerScore[`${level}lvlh`] || 0;
     const total = easy + normal + hard;
-    return { player, easy, normal, hard, total };
+    const avatar = playersData[player]?.avatar || "avatars/1.jpg"; // fallback
+    return { player, easy, normal, hard, total, avatar };
   });
 
   playersArr.sort((a, b) => b.total - a.total);
 
   playersArr.slice(0, 5).forEach(p => {
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${p.player}</td>
-                    <td>${p.easy}</td>
-                    <td>${p.normal}</td>
-                    <td>${p.hard}</td>`;
+    tr.innerHTML = `
+      <td class="player-cell">
+        <img src="${p.avatar}" class="leader-avatar">
+        <span>${p.player}</span>
+      </td>
+      <td>${p.easy}</td>
+      <td>${p.normal}</td>
+      <td>${p.hard}</td>
+    `;
     tableBody.appendChild(tr);
   });
 }
@@ -103,6 +240,7 @@ window.onload = () => {
   } else {
     document.getElementById("authOverlay").style.display = "none";
     document.getElementById("userName").textContent = name;
+    renderUserAvatar();
   }
 
   const levelSelect = document.getElementById("leaderLevel");
@@ -112,6 +250,7 @@ window.onload = () => {
   levelSelect.addEventListener("change", () => {
     renderLeaderboard(levelSelect.value);
   });
+
 };
 
 function canStartDifficulty(level, diff) {

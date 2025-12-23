@@ -98,6 +98,13 @@ h1 { font-size: 28px; margin-bottom: 20px; }
 #leaderboard tbody tr:nth-child(even) { background: #fce7f3; }
 #leaderboard tbody tr:hover { background: #f9d6e3; }
 
+
+#leaderboard th:not(:first-child),
+#leaderboard td:not(:first-child) {
+  width: 16%;
+  text-align: center;
+}
+
 #authOverlay, #difficultyModal {
   position: fixed;
   inset: 0;
@@ -174,21 +181,32 @@ h1 { font-size: 28px; margin-bottom: 20px; }
   cursor: pointer;
 }
 
-/* === Фон с интерактивными сердечками === */
+#settingsWindow button:hover {
+  background: #db2777;
+}
+
+#settingsWindow button.danger {
+  background: #f87171;
+}
+
+#settingsWindow button.danger:hover {
+  background: #dc2626;
+}
+
 #heartsBackground {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none; /* Не мешает кликам по интерфейсу */
-  z-index: -1; /* Под всем */
+  pointer-events: none;
+  z-index: -1;
   perspective: 1000px;
 }
 
 .heart-item {
   position: absolute;
-  pointer-events: auto; /* Включаем события мыши только на сердечках */
+  pointer-events: auto;
   cursor: pointer;
 }
 
@@ -211,7 +229,6 @@ h1 { font-size: 28px; margin-bottom: 20px; }
   backface-visibility: hidden;
 }
 
-/* Передняя сторона — нежно-розовая */
 .heart-front {
   background: #f9a8d4;
   transform: rotate(-45deg);
@@ -226,7 +243,7 @@ h1 { font-size: 28px; margin-bottom: 20px; }
 .heart-front::before { top: -20px; left: 0; }
 .heart-front::after { top: 0; left: 20px; }
 
-/* Задняя сторона — нежно-голубая */
+
 .heart-back {
   background: #93c5fd;
   transform: rotateY(180deg) rotate(-45deg);
@@ -240,3 +257,69 @@ h1 { font-size: 28px; margin-bottom: 20px; }
 }
 .heart-back::before { top: -20px; left: 0; }
 .heart-back::after { top: 0; left: 20px; }
+
+.auth-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ec4899;
+  margin: 10px auto 15px;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.auth-avatar:hover {
+  transform: scale(1.08);
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ec4899;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #db2777;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.account-item:hover {
+  background: #fce7f3;
+}
+
+.account-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.leader-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  vertical-align: middle;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.player-cell {
+  display: flex;
+  align-items: center;
+}
