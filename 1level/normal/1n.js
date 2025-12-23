@@ -17,6 +17,16 @@ const scoreDisplay = document.getElementById("scoreDisplay");
 let started = false; 
 let baseSizes = [160,145,130,115,100,85,70,55];
 const color = '#f87171';
+const colors = [
+  '#f87171',
+  '#fb923c',
+  '#fde047',
+  '#4ade80',
+  '#67e8f9',
+  '#60a5fa',
+  '#a78bfa',
+  '#f472b6'
+];
 
 let ringsData = [];
 let totalRings = 0;
@@ -189,6 +199,8 @@ function checkVictory(){
 
   const rulesButtonsDiv = overlay.querySelector(".rules-buttons");
   rulesButtonsDiv.appendChild(nextLevelBtn);
+
+  playVictoryAnimation()
 }
 
 
@@ -240,4 +252,135 @@ function savePlayerScore(playerName, level, difficulty, score) {
   }
 
   localStorage.setItem("playerScores", JSON.stringify(allScores));
+}
+
+function playVictoryAnimation() {
+  let rollingContainer = document.getElementById('rollingRingsContainer');
+  if (!rollingContainer) {
+    rollingContainer = document.createElement('div');
+    rollingContainer.id = 'rollingRingsContainer';
+    rollingContainer.className = 'victory-anim';
+    document.body.appendChild(rollingContainer);
+  }
+  rollingContainer.innerHTML = '';
+
+  const rollingSizes = [160,145,130,115,100,85,70,55];
+  rollingSizes.forEach((size, i) => {
+    const ring = document.createElement("div");
+    ring.className = "ring rolling-ring";
+    ring.style.width = size + "px";
+    ring.style.height = size + "px";
+    ring.style.background = colors[i % colors.length];
+    ring.style.bottom = "20px";
+    rollingContainer.appendChild(ring);
+    animateRollingRing(ring, 1.5 + Math.random() * 1);
+  });
+
+  const modal = overlay.querySelector('.modal-result');
+  if (!modal) return;
+
+  modal.querySelectorAll('.pyramid').forEach(el => el.remove());
+
+
+  let contentWrap = modal.querySelector('.victory-content-wrap');
+  if (!contentWrap) {
+    contentWrap = document.createElement('div');
+    contentWrap.className = 'victory-content-wrap';
+    contentWrap.style.textAlign = 'center';
+    contentWrap.style.zIndex = '10';
+    contentWrap.style.display = 'flex';
+    contentWrap.style.flexDirection = 'column';
+    contentWrap.style.alignItems = 'center';
+    contentWrap.style.flexShrink = '0';
+    
+    while (modal.firstChild) {
+      contentWrap.appendChild(modal.firstChild);
+    }
+    modal.appendChild(contentWrap);
+  }
+  const leftPyramid = createVictoryPyramidSmall("left");
+  const rightPyramid = createVictoryPyramidSmall("right");
+
+  modal.style.display = 'flex';
+  modal.style.justifyContent = 'center';
+  modal.style.alignItems = 'flex-end';
+  modal.style.gap = '24px';
+  modal.style.padding = '20px';
+  modal.style.position = 'relative';
+
+  modal.insertBefore(leftPyramid, contentWrap);
+  modal.appendChild(rightPyramid);
+}
+
+
+function animateRollingRing(ring, speed) {
+  let dir = 1;
+  let x = 0;
+  let angle = 0;
+
+  const step = () => {
+    const maxX = window.innerWidth - ring.offsetWidth - 10;
+
+    x += dir * speed;
+    angle += dir * speed;
+
+    if (x >= maxX) dir = -1;
+    if (x <= 0) dir = 1;
+
+    ring.style.left = x + "px";
+    ring.style.transform = `rotate(${angle}deg)`;
+
+    requestAnimationFrame(step);
+  };
+
+  step();
+}
+
+
+function createVictoryPyramidSmall(side) {
+  const pyramid = document.createElement("div");
+  pyramid.className = `pyramid victory-pyramid-${side}`;
+  pyramid.style.position = 'relative';
+  pyramid.style.width = '120px';
+  pyramid.style.height = '300px';
+  pyramid.style.display = 'flex';
+  pyramid.style.flexDirection = 'column-reverse';
+  pyramid.style.alignItems = 'center';
+  pyramid.style.justifyContent = 'flex-start';
+  pyramid.style.flexShrink = '0';
+
+  const peg = document.createElement("div");
+  peg.className = "pyramid-peg";
+  peg.style.position = 'absolute';
+  peg.style.bottom = '0';
+  peg.style.width = '10px';
+  peg.style.height = '120px';
+  peg.style.background = '#9ca3af';
+  peg.style.borderRadius = '4px';
+  peg.style.zIndex = '1';
+  pyramid.appendChild(peg);
+
+  const numRings = 8;
+  const maxWidth = 120;
+  const minWidth = 40;
+  for (let i = 0; i < numRings; i++) {
+    const ring = document.createElement("div");
+    ring.className = "pyramid-ring";
+
+    const width = maxWidth - i * ((maxWidth - minWidth) / (numRings - 1));
+    ring.style.width = width + "px";
+    ring.style.height = "12px";
+    ring.style.borderRadius = "6px";
+    ring.style.background = colors[i % colors.length];
+    ring.style.marginTop = "2px";
+    ring.style.zIndex = '2';
+    ring.style.position = 'relative';
+    
+    ring.style.setProperty("--jump", (5 + i*2) + "px");
+    ring.style.animation = `jump 1.2s ease-in-out ${i*0.08}s infinite`;
+
+    pyramid.appendChild(ring);
+  }
+
+  return pyramid;
 }

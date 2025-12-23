@@ -85,7 +85,7 @@ function renderLeaderboard(level) {
 
   playersArr.sort((a, b) => b.total - a.total);
 
-  playersArr.slice(0, 10).forEach(p => {
+  playersArr.slice(0, 5).forEach(p => {
     const tr = document.createElement("tr");
     tr.innerHTML = `<td>${p.player}</td>
                     <td>${p.easy}</td>
@@ -143,13 +143,14 @@ function closeSettings() {
 }
 
 function resetRating() {
-  if (!confirm("Сбросить весь рейтинг?")) return;
+  if (!confirm("Сбросить рейтинг всех игроков?")) return;
   localStorage.removeItem("playerScores");
   alert("Рейтинг сброшен");
   location.reload();
 }
 
 function unlockAll() {
+  if (!confirm("Разблокировать все режимы? Ваши баллы будут обнулены")) return;
   const playerName = localStorage.getItem("playerName");
   if (!playerName) return;
 
@@ -165,4 +166,57 @@ function unlockAll() {
   localStorage.setItem("playerScores", JSON.stringify(allScores));
   alert("Все режимы разблокированы");
   location.reload();
+}
+
+function initHeartsBackground() {
+  const container = document.getElementById('heartsBackground');
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const stepX = 90;
+  const stepY = 70;
+
+  const cols = Math.ceil(window.innerWidth / stepX);
+  const rows = Math.ceil(window.innerHeight / stepY);
+
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+
+      const heart = document.createElement('div');
+      heart.className = 'heart-item';
+
+      const rowOffset = (y % 2 === 0) ? 0 : stepX / 2;
+
+      heart.style.left = (x * stepX + rowOffset) + "px";
+      heart.style.top = (y * stepY) + "px";
+
+      const flipper = document.createElement('div');
+      flipper.className = 'heart-flipper';
+
+      const front = document.createElement('div');
+      front.className = 'heart-side heart-front';
+
+      const back = document.createElement('div');
+      back.className = 'heart-side heart-back';
+
+      flipper.append(front, back);
+      heart.appendChild(flipper);
+      container.appendChild(heart);
+
+      heart.addEventListener('mouseenter', () => {
+        flipper.classList.toggle('flipped');
+      });
+    }
+  }
+}
+
+window.addEventListener("resize", () => {
+  initHeartsBackground();
+});
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHeartsBackground);
+} else {
+  initHeartsBackground();
 }

@@ -4,6 +4,10 @@ body {
   color: #1f2937;
   margin: 0;
   overflow-x: hidden;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;  
 }
 
 header {
@@ -39,6 +43,13 @@ header button:hover { background: #db2777; }
   text-align: center;
   position: relative;
   z-index: 40;
+  background: #fff0f6;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+  border-radius: 12px;
+  border: 2px solid #ec4899;
 }
 
 h1 { font-size: 28px; margin-bottom: 20px; }
@@ -163,4 +174,69 @@ h1 { font-size: 28px; margin-bottom: 20px; }
   cursor: pointer;
 }
 
+/* === Фон с интерактивными сердечками === */
+#heartsBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Не мешает кликам по интерфейсу */
+  z-index: -1; /* Под всем */
+  perspective: 1000px;
+}
 
+.heart-item {
+  position: absolute;
+  pointer-events: auto; /* Включаем события мыши только на сердечках */
+  cursor: pointer;
+}
+
+.heart-flipper {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.heart-flipper.flipped {
+  transform: rotateY(180deg);
+}
+
+.heart-side {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+/* Передняя сторона — нежно-розовая */
+.heart-front {
+  background: #f9a8d4;
+  transform: rotate(-45deg);
+}
+.heart-front::before,
+.heart-front::after {
+  content: ''; position: absolute;
+  width: 40px; height: 40px;
+  background: #f9a8d4;
+  border-radius: 50%;
+}
+.heart-front::before { top: -20px; left: 0; }
+.heart-front::after { top: 0; left: 20px; }
+
+/* Задняя сторона — нежно-голубая */
+.heart-back {
+  background: #93c5fd;
+  transform: rotateY(180deg) rotate(-45deg);
+}
+.heart-back::before,
+.heart-back::after {
+  content: ''; position: absolute;
+  width: 40px; height: 40px;
+  background: #93c5fd;
+  border-radius: 50%;
+}
+.heart-back::before { top: -20px; left: 0; }
+.heart-back::after { top: 0; left: 20px; }

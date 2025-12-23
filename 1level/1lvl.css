@@ -188,7 +188,11 @@ button:hover {
   border: 2px solid #fbcfe8;
   border-radius: 14px;
   padding: 16px;
-  max-width: 400px;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
 }
 
 .modal-result h2 {
@@ -219,4 +223,33 @@ button:hover {
 
 .rules-buttons button:hover {
   background: #db2777;
+}
+
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+#rollingRingsContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.rolling-ring {
+  position: absolute;
+  bottom: 20px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7), transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(0,0,0,0.35), transparent 45%),
+    var(--color);
+  box-shadow:
+    inset 0 6px 10px rgba(255,255,255,0.35),
+    inset 0 -8px 12px rgba(0,0,0,0.45);
 }
