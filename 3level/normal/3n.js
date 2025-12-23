@@ -242,9 +242,10 @@ document.getElementById("finishBtn").addEventListener("click", () => {
 
     const rulesButtonsDiv = overlay.querySelector(".rules-buttons");
     rulesButtonsDiv.appendChild(nextLevelBtn);
+
+    playVictoryAnimation();
   }
 
-  playVictoryAnimation();
 });
 
 

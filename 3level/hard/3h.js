@@ -220,7 +220,7 @@ document.getElementById("finishBtn").addEventListener("click", () => {
   clearInterval(timerInterval);
   timerInterval = null;
 
-  playVictoryAnimation();
+  if (score > 0) playVictoryAnimation();
 });
 
 
