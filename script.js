@@ -211,7 +211,7 @@ function renderLeaderboard(level) {
     const normal = playerScore[`${level}lvln`] || 0;
     const hard = playerScore[`${level}lvlh`] || 0;
     const total = easy + normal + hard;
-    const avatar = playersData[player]?.avatar || "avatars/1.jpg"; // fallback
+    const avatar = playersData[player]?.avatar || "avatars/1.jpg";
     return { player, easy, normal, hard, total, avatar };
   });
 
