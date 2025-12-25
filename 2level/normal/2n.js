@@ -44,15 +44,28 @@ function formatTime(s) {
   return `${mm}:${ss}`;
 }
 
-function startTimer() {
+function startTimer(){
   if (timerInterval) return;
+
   timerInterval = setInterval(() => {
     timeLeft--;
+
     timerDisplay.textContent = formatTime(timeLeft);
+
+    const percent = timeLeft / TIME_SEC;
+    timerBar.style.width = (percent * 100) + "%";
+
+    const hue = percent * 120;
+    timerBar.style.background = `hsl(${hue}, 100%, 50%)`;
+
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       timerInterval = null;
-      showModal("Игра окончена", "Время вышло.");
+      timerBar.style.width = "0%";
+      showModal(
+        "Игра окончена",
+        `Время вышло!<br>Ваши очки: ${score}`
+      );
     }
   }, 1000);
 }
