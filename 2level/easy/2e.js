@@ -133,7 +133,7 @@ function renderRings() {
   requestAnimationFrame(fall);
     }
 
-requestAnimationFrame(fall);
+  requestAnimationFrame(fall);
 
   });
 }
