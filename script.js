@@ -282,9 +282,9 @@ function closeSettings() {
 }
 
 function resetRating() {
-  if (!confirm("Сбросить рейтинг всех игроков?")) return;
-  localStorage.removeItem("playerScores38");
-  alert("Рейтинг сброшен");
+  if (!confirm("Сбросить все данные? Будут удалены все пользователи")) return;
+  localStorage.clear();
+  alert("Данные удалены");
   location.reload();
 }
 
