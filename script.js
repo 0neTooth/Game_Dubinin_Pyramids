@@ -36,10 +36,10 @@ function changeAuthAvatar() {
 }
 
 function changeAvatar() {
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("playerName38");
   if (!name) return;
 
-  let players = JSON.parse(localStorage.getItem("players") || "{}");
+  let players = JSON.parse(localStorage.getItem("players38") || "{}");
   if (!players[name]) return;
 
   const currentAvatar = players[name].avatar;
@@ -50,26 +50,26 @@ function changeAvatar() {
   if (currentIndex > AVATAR_COUNT) currentIndex = 1;
 
   players[name].avatar = `avatars/${currentIndex}.jpg`;
-  localStorage.setItem("players", JSON.stringify(players));
+  localStorage.setItem("players38", JSON.stringify(players));
 
   renderUserAvatar();
 }
 
 function deleteAccount() {
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("playerName38");
   if (!name) return;
 
   if (!confirm(`Удалить аккаунт "${name}"? Все данные будут потеряны.`)) return;
 
-  let players = JSON.parse(localStorage.getItem("players") || "{}");
+  let players = JSON.parse(localStorage.getItem("players38") || "{}");
   delete players[name];
-  localStorage.setItem("players", JSON.stringify(players));
+  localStorage.setItem("players38", JSON.stringify(players));
 
-  let scores = JSON.parse(localStorage.getItem("playerScores") || "{}");
+  let scores = JSON.parse(localStorage.getItem("playerScores38") || "{}");
   delete scores[name];
-  localStorage.setItem("playerScores", JSON.stringify(scores));
+  localStorage.setItem("playerScores38", JSON.stringify(scores));
 
-  localStorage.removeItem("playerName");
+  localStorage.removeItem("playerName38");
   location.reload();
 }
 
@@ -80,7 +80,7 @@ function createAccount() {
 
   if (name.length > 12) return alert("Имя не должно быть длиннее 12 символов");
 
-  let players = JSON.parse(localStorage.getItem("players") || "{}");
+  let players = JSON.parse(localStorage.getItem("players38") || "{}");
 
   if (Object.keys(players).length >= MAX_ACCOUNTS) {
     return alert("Достигнуто максимальное количество аккаунтов (15)");
@@ -95,12 +95,12 @@ function createAccount() {
     avatar: `avatars/${selectedAvatar}.jpg`
   };
 
-  localStorage.setItem("players", JSON.stringify(players));
+  localStorage.setItem("players38", JSON.stringify(players));
   loginAs(name);
 }
 
 function loginAs(name) {
-  localStorage.setItem("playerName", name);
+  localStorage.setItem("playerName38", name);
   document.getElementById("authOverlay").style.display = "none";
   document.getElementById("userName").textContent = name;
   renderUserAvatar();
@@ -110,7 +110,7 @@ function renderAccountsList() {
   const list = document.getElementById("accountsList");
   list.innerHTML = "";
 
-  const players = JSON.parse(localStorage.getItem("players") || "{}");
+  const players = JSON.parse(localStorage.getItem("players38") || "{}");
 
   if (Object.keys(players).length === 0) {
     list.innerHTML = "<p>Нет сохранённых аккаунтов</p>";
@@ -130,10 +130,10 @@ function renderAccountsList() {
 }
 
 function renderUserAvatar() {
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("playerName38");
   if (!name) return;
 
-  const players = JSON.parse(localStorage.getItem("players") || "{}");
+  const players = JSON.parse(localStorage.getItem("players38") || "{}");
   const avatar = players[name]?.avatar;
 
   if (!avatar) return;
@@ -143,7 +143,7 @@ function renderUserAvatar() {
 }
 
 function logout() {
-  localStorage.removeItem("playerName");
+  localStorage.removeItem("playerName38");
   location.reload();
 }
 
@@ -182,8 +182,8 @@ function closeDifficulty() {
 }
 
 function savePlayerScore(playerName, level, difficulty, score) {
-  let allScores = localStorage.getItem("playerScores")
-    ? JSON.parse(localStorage.getItem("playerScores"))
+  let allScores = localStorage.getItem("playerScores38")
+    ? JSON.parse(localStorage.getItem("playerScores38"))
     : {};
 
   if (!allScores[playerName]) allScores[playerName] = {};
@@ -191,15 +191,15 @@ function savePlayerScore(playerName, level, difficulty, score) {
   const key = `${level}lvl${difficulty}`;
   allScores[playerName][key] = score;
 
-  localStorage.setItem("playerScores", JSON.stringify(allScores));
+  localStorage.setItem("playerScores38", JSON.stringify(allScores));
 }
 
 function renderLeaderboard(level) {
   const tableBody = document.querySelector("#leaderboard tbody");
   tableBody.innerHTML = "";
 
-  const scoresStr = localStorage.getItem("playerScores");
-  const playersStr = localStorage.getItem("players");
+  const scoresStr = localStorage.getItem("playerScores38");
+  const playersStr = localStorage.getItem("players38");
 
   if (!scoresStr || !playersStr) return;
 
@@ -234,7 +234,7 @@ function renderLeaderboard(level) {
 
 
 window.onload = () => {
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("playerName38");
   if (!name) {
     document.getElementById("authOverlay").style.display = "flex";
   } else {
@@ -254,10 +254,10 @@ window.onload = () => {
 };
 
 function canStartDifficulty(level, diff) {
-  const playerName = localStorage.getItem("playerName");
+  const playerName = localStorage.getItem("playerName38");
   if (!playerName) return false;
 
-  const allScores = JSON.parse(localStorage.getItem("playerScores") || "{}");
+  const allScores = JSON.parse(localStorage.getItem("playerScores38") || "{}");
   const playerScores = allScores[playerName] || {};
 
   if (diff === '1') return true;
@@ -283,17 +283,17 @@ function closeSettings() {
 
 function resetRating() {
   if (!confirm("Сбросить рейтинг всех игроков?")) return;
-  localStorage.removeItem("playerScores");
+  localStorage.removeItem("playerScores38");
   alert("Рейтинг сброшен");
   location.reload();
 }
 
 function unlockAll() {
   if (!confirm("Разблокировать все режимы? Ваши баллы будут обнулены")) return;
-  const playerName = localStorage.getItem("playerName");
+  const playerName = localStorage.getItem("playerName38");
   if (!playerName) return;
 
-  let allScores = JSON.parse(localStorage.getItem("playerScores") || "{}");
+  let allScores = JSON.parse(localStorage.getItem("playerScores38") || "{}");
   if (!allScores[playerName]) allScores[playerName] = {};
 
   for (let lvl = 1; lvl <= 3; lvl++) {
@@ -302,7 +302,7 @@ function unlockAll() {
     allScores[playerName][`${lvl}lvlh`] = 1;
   }
 
-  localStorage.setItem("playerScores", JSON.stringify(allScores));
+  localStorage.setItem("playerScores38", JSON.stringify(allScores));
   alert("Все режимы разблокированы");
   location.reload();
 }

@@ -323,7 +323,7 @@ function checkVictory() {
   const els = Array.from(peg.children);
   if (els.length !== totalRings) return;
 
-  const playerName = localStorage.getItem("playerName");
+  const playerName = localStorage.getItem("playerName38");
   savePlayerScore(playerName, 2, "n", score);
 
   showModal("Игра пройдена", "Башня собрана!");
@@ -396,8 +396,8 @@ function startFalling(el, r) {
 }
 
 function savePlayerScore(playerName, level, difficulty, score) {
-  let allScores = localStorage.getItem("playerScores")
-    ? JSON.parse(localStorage.getItem("playerScores"))
+  let allScores = localStorage.getItem("playerScores38")
+    ? JSON.parse(localStorage.getItem("playerScores38"))
     : {};
 
   if (!allScores[playerName]) {
@@ -414,7 +414,7 @@ function savePlayerScore(playerName, level, difficulty, score) {
     allScores[playerName][key] = score;
   }
 
-  localStorage.setItem("playerScores", JSON.stringify(allScores));
+  localStorage.setItem("playerScores38", JSON.stringify(allScores));
 }
 
 function playVictoryAnimation() {
